@@ -14,15 +14,15 @@
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
   const state = {
-  category: 'all',
-  search: '',
-  sort: 'default',
-  lastCategory: localStorage.getItem('cochiLastCategory') || 'all',
-  toastTimer: 0
-};
+    category: 'all',
+    search: '',
+    sort: 'default',
+    lastCategory: localStorage.getItem('cochiLastCategory') || 'all',
+    toastTimer: 0
+  };
 
-// Restore last category from localStorage
-state.category = state.lastCategory;
+  // Restore last category from localStorage
+  state.category = state.lastCategory;
   const els = {
     categoryFilter: $('#category-filter'),
     categoryBento: $('#category-bento'),
@@ -73,7 +73,7 @@ state.category = state.lastCategory;
   }
 
   function normalizeText(value) {
-    return String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es');
+    return String(value ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLocaleLowerCase('es');
   }
 
   function formatPrice(value) {
@@ -86,23 +86,6 @@ state.category = state.lastCategory;
 
   function categoryById(categoryId) {
     return menu.categories.find((category) => category.id === categoryId);
-  }
-
-  function renderCategoryButtons() {
-    const buttons = [
-      { id: 'all', name: 'Todo el menú' },
-      ...menu.categories.map((category) => ({ id: category.id, name: category.shortName || category.name }))
-    ];
-    els.categoryFilter.innerHTML = buttons.map((category) => `
-      <button class="category-chip" type="button" data-category="${escapeHtml(category.id)}" aria-pressed="${category.id === state.category}">${escapeHtml(category.name)}</button>
-    `).join('');
-
-    // Populate mobile category dropdown
-    els.mobileCategorySelect.innerHTML = buttons.map(category => `
-      <option value="${escapeHtml(category.id)}" ${category.id === state.category ? 'selected' : ''}>
-        ${escapeHtml(category.name)}
-      </option>
-    `).join('');
   }
 
   function filteredProducts() {
@@ -134,7 +117,7 @@ state.category = state.lastCategory;
       ? `<span class="image-reference-tag">${escapeHtml(product.imageNote)}</span>` : '';
     const availability = unavailable ? '<span class="product-unavailable">No disponible</span>' : '';
     const description = product.description || '';
-        // Determine tags for featured products
+    // Determine tags for featured products
     const isFeatured = product.featured === true;
     const featuredClass = isFeatured ? 'featured-pulse' : '';
 
