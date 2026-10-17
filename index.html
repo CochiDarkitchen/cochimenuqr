@@ -104,10 +104,36 @@
           <input id="search-input" type="search" placeholder="Busca un plato…" autocomplete="off" spellcheck="false">
           <kbd>/</kbd>
         </label>
+        <div class="sort-dropdown" aria-label="Ordenar por">
+          <span>Ordenar por</span>
+          <span class="sort-selected">Predeterminado</span>
+        </div>
+        <div class="sort-options" role="menu">
+          <div class="sort-option" data-sort="default" role="menuitemradio" aria-checked="true">
+            <span>Predeterminado</span>
+          </div>
+          <div class="sort-option" data-sort="price-asc" role="menuitemradio">
+            <span>Precio: bajo a alto</span>
+          </div>
+          <div class="sort-option" data-sort="price-desc" role="menuitemradio">
+            <span>Precio: alto a bajo</span>
+          </div>
+          <div class="sort-option" data-sort="name-asc" role="menuitemradio">
+            <span>Nombre: A-Z</span>
+          </div>
+          <div class="sort-option" data-sort="name-desc" role="menuitemradio">
+            <span>Nombre: Z-A</span>
+          </div>
+        </div>
         <span class="menu-controls-label"><span class="live-dot"></span> MENÚ COCHI</span>
       </div>
       <div class="category-filter-wrap">
         <div class="category-filter" id="category-filter" role="group" aria-label="Filtrar por categoría"></div>
+        <div class="mobile-category-dropdown">
+          <select id="mobile-category-select" aria-label="Seleccionar categoría">
+            <option value="all">Todo el menú</option>
+          </select>
+        </div>
         <span class="scroll-hint" aria-hidden="true">DESLIZA ↔</span>
       </div>
       <div class="results-row"><p id="results-summary" aria-live="polite">Preparando el menú…</p><button id="clear-filters" class="clear-filters" type="button" hidden>Limpiar búsqueda <span aria-hidden="true">×</span></button></div>
@@ -143,6 +169,9 @@
 
   <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-product-name">
     <button class="dialog-close" id="dialog-close" type="button" aria-label="Cerrar detalles del plato">×</button>
+    <button class="favorite-button" id="dialog-favorite" aria-label="Marcar como favorito">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </button>
     <div class="dialog-layout">
       <div class="dialog-image-wrap"><img id="dialog-product-image" src="assets/images/products/shawarma-cesar.webp" alt=""></div>
       <div class="dialog-details">
@@ -161,6 +190,30 @@
     <div class="share-dialog-copy"><span class="share-mark">↗</span><p class="eyebrow eyebrow-dark">PÁSALO</p><h2 id="share-dialog-title">Comparte<br><span>el antojo.</span></h2><p>Copia el enlace de esta carta y compártelo con quien quieras.</p><input id="share-url" type="url" readonly aria-label="Enlace público del menú"><div class="share-dialog-actions"><button class="button button-red" id="copy-link-button" type="button">Copiar enlace</button><button class="button button-outline" id="native-share-button" type="button">Compartir ↗</button></div><p id="share-status" class="share-status" aria-live="polite"></p></div>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Claude Enhancements: Dynamic UX/UI Elements -->
+  <div class="confetti-container" aria-hidden="true"></div>
+  <div class="isotopo-follower" aria-hidden="true">
+    <img src="assets/branding/isotipo-cochi-crema.png" alt="" width="24" height="24">
+  </div>
+  <div class="quick-look-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="quick-look-card">
+      <div class="quick-look-header">
+        <h3 id="quick-look-title"></h3>
+        <button class="quick-look-close" aria-label="Cerrar vista rápida">×</button>
+      </div>
+      <div class="quick-look-content">
+        <div class="quick-look-image-wrap">
+          <img id="quick-look-image" src="" alt="" loading="lazy">
+        </div>
+        <div class="quick-look-details">
+          <p class="quick-look-category" id="quick-look-category"></p>
+          <p class="quick-look-description" id="quick-look-description"></p>
+          <div class="quick-look-price" id="quick-look-price"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
