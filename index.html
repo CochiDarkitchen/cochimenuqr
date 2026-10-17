@@ -104,25 +104,27 @@
           <input id="search-input" type="search" placeholder="Busca un plato…" autocomplete="off" spellcheck="false">
           <kbd>/</kbd>
         </label>
-        <div class="sort-dropdown" aria-label="Ordenar por">
-          <span>Ordenar por</span>
-          <span class="sort-selected">Predeterminado</span>
-        </div>
-        <div class="sort-options" role="menu">
-          <div class="sort-option" data-sort="default" role="menuitemradio" aria-checked="true">
-            <span>Predeterminado</span>
+        <div class="sort-control">
+          <div class="sort-dropdown" id="sort-dropdown" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" aria-label="Ordenar por">
+            <span>Ordenar por</span>
+            <span class="sort-selected">Predeterminado</span>
           </div>
-          <div class="sort-option" data-sort="price-asc" role="menuitemradio">
-            <span>Precio: bajo a alto</span>
-          </div>
-          <div class="sort-option" data-sort="price-desc" role="menuitemradio">
-            <span>Precio: alto a bajo</span>
-          </div>
-          <div class="sort-option" data-sort="name-asc" role="menuitemradio">
-            <span>Nombre: A-Z</span>
-          </div>
-          <div class="sort-option" data-sort="name-desc" role="menuitemradio">
-            <span>Nombre: Z-A</span>
+          <div class="sort-options" role="menu">
+            <div class="sort-option active" data-sort="default" role="menuitemradio" aria-checked="true">
+              <span>Predeterminado</span>
+            </div>
+            <div class="sort-option" data-sort="price-asc" role="menuitemradio" aria-checked="false">
+              <span>Precio: bajo a alto</span>
+            </div>
+            <div class="sort-option" data-sort="price-desc" role="menuitemradio" aria-checked="false">
+              <span>Precio: alto a bajo</span>
+            </div>
+            <div class="sort-option" data-sort="name-asc" role="menuitemradio" aria-checked="false">
+              <span>Nombre: A-Z</span>
+            </div>
+            <div class="sort-option" data-sort="name-desc" role="menuitemradio" aria-checked="false">
+              <span>Nombre: Z-A</span>
+            </div>
           </div>
         </div>
         <span class="menu-controls-label"><span class="live-dot"></span> MENÚ COCHI</span>
@@ -196,11 +198,11 @@
   <div class="isotopo-follower" aria-hidden="true">
     <img src="assets/branding/isotipo-cochi-crema.png" alt="" width="24" height="24">
   </div>
-  <div class="quick-look-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="quick-look-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="quick-look-title">
     <div class="quick-look-card">
       <div class="quick-look-header">
         <h3 id="quick-look-title"></h3>
-        <button class="quick-look-close" aria-label="Cerrar vista rápida">×</button>
+        <button class="quick-look-close" type="button" aria-label="Cerrar vista rápida">×</button>
       </div>
       <div class="quick-look-content">
         <div class="quick-look-image-wrap">

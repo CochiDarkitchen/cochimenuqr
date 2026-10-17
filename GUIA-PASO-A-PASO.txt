@@ -6,7 +6,7 @@ Esta guía está escrita para empezar desde cero. No necesitas programar ni inst
 
 1. Descarga el ZIP que acompaña esta guía.
 2. En Windows 10 u 11, abre el Explorador de archivos y ve a Descargas.
-3. Haz clic derecho sobre ENMA_DESIGN_Menu_QR_Cochi.zip y selecciona Extraer todo….
+3. Haz clic derecho sobre ENMA_DESIGN_Menu_QR_Cochi_CORREGIDO.zip y selecciona Extraer todo….
 4. Pulsa Extraer. Windows creará una carpeta llamada ENMA_DESIGN_Menu_QR_Cochi.
 5. Entra en esa carpeta. Debes ver index.html, styles.css, app.js, qr.html y carpetas como data y assets.
 

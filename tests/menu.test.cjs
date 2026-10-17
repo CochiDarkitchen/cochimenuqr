@@ -115,3 +115,26 @@ test('las nuevas animaciones respetan movimiento reducido y entrada por scroll',
   assert.match(js, /function setupMotionItems\(\)/);
   assert.match(js, /new IntersectionObserver/);
 });
+
+
+test('app.js tiene sintaxis válida y declara el renderizado de categorías', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const js = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+  assert.doesNotThrow(() => new vm.Script(js, { filename: 'app.js' }));
+  assert.match(js, /function renderCategoryButtons\(\)/);
+  assert.match(html, /id="sort-dropdown"/);
+});
+
+test('los estados de animación no ocultan el contenido si falla JavaScript', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  const js = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+  assert.match(css, /\.reveal\s*\{\s*opacity:\s*1;\s*transform:\s*none;/);
+  assert.match(css, /html\.has-motion\s+\.reveal\s*\{/);
+  assert.match(js, /document\.documentElement\.classList\.add\('has-motion'\);\s*\}\)\(\);/);
+});
+
+test('las tarjetas de productos no anidan botones interactivos', () => {
+  const js = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+  assert.match(js, /<\/button>\s*<button class="quick-look-btn"/);
+  assert.doesNotMatch(js, /<button class="product-open"[\s\S]*?<button class="quick-look-btn"[\s\S]*?<\/button>[\s\S]*?<\/button>/);
+});

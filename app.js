@@ -1,9 +1,8 @@
 (function () {
   'use strict';
 
-  // Activa los estados de animación solo cuando JavaScript está disponible;
-  // si un script falla, el contenido principal sigue siendo legible.
-  document.documentElement.classList.add('has-motion');
+  // Las animaciones se activan al final de una inicialización correcta.
+  // Si hay un error de JavaScript, el contenido permanece visible.
 
   const menu = window.COCHI_MENU;
   if (!menu || !menu.restaurant || !Array.isArray(menu.products)) {
@@ -13,16 +12,38 @@
 
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
-  const state = {
-    category: 'all',
-    search: '',
-    sort: 'default',
-    lastCategory: localStorage.getItem('cochiLastCategory') || 'all',
-    toastTimer: 0
+
+  // El almacenamiento local es opcional. La web también debe funcionar si el
+  // navegador bloquea localStorage o si los datos guardados están dañados.
+  const storage = {
+    get(key) {
+      try { return window.localStorage.getItem(key); } catch (_) { return null; }
+    },
+    set(key, value) {
+      try { window.localStorage.setItem(key, value); return true; } catch (_) { return false; }
+    }
   };
 
-  // Restore last category from localStorage
-  state.category = state.lastCategory;
+  function readStoredArray(key) {
+    try {
+      const value = JSON.parse(storage.get(key) || '[]');
+      return Array.isArray(value) ? value : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  const rememberedCategory = storage.get('cochiLastCategory') || 'all';
+  const validRememberedCategory = rememberedCategory === 'all'
+    || menu.categories.some((category) => category.id === rememberedCategory);
+  const initialCategory = validRememberedCategory ? rememberedCategory : 'all';
+  const state = {
+    category: initialCategory,
+    search: '',
+    sort: 'default',
+    lastCategory: initialCategory,
+    toastTimer: 0
+  };
   const els = {
     categoryFilter: $('#category-filter'),
     categoryBento: $('#category-bento'),
@@ -88,6 +109,33 @@
     return menu.categories.find((category) => category.id === categoryId);
   }
 
+  function renderCategoryButtons() {
+    const categoryCounts = new Map();
+    menu.products.forEach((product) => {
+      categoryCounts.set(product.categoryId, (categoryCounts.get(product.categoryId) || 0) + 1);
+    });
+
+    const allCount = menu.products.length;
+    const buttons = [
+      `<button class="category-chip" type="button" data-category="all" aria-pressed="${state.category === 'all'}">Todo el menú <span class="category-chip-count">${allCount}</span></button>`,
+      ...menu.categories.map((category) => {
+        const count = categoryCounts.get(category.id) || 0;
+        return `<button class="category-chip" type="button" data-category="${escapeHtml(category.id)}" aria-pressed="${state.category === category.id}">${escapeHtml(category.name)} <span class="category-chip-count">${count}</span></button>`;
+      })
+    ];
+    els.categoryFilter.innerHTML = buttons.join('');
+
+    const options = [
+      `<option value="all">Todo el menú (${allCount})</option>`,
+      ...menu.categories.map((category) => {
+        const count = categoryCounts.get(category.id) || 0;
+        return `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)} (${count})</option>`;
+      })
+    ];
+    els.mobileCategorySelect.innerHTML = options.join('');
+    els.mobileCategorySelect.value = state.category;
+  }
+
   function filteredProducts() {
     const query = normalizeText(state.search.trim());
     const filtered = menu.products.filter((product) => {
@@ -135,11 +183,11 @@
             <span class="product-description">${escapeHtml(description)}</span>
             <span class="product-card-bottom">
               <span class="open-label">Ver detalles</span><span class="open-arrow" aria-hidden="true">↗</span>
-              <button class="quick-look-btn" aria-label="Vista rápida de ${escapeHtml(product.name)}">
-                <span class="quick-look-icon">👁</span>
-              </button>
             </span>
           </span>
+        </button>
+        <button class="quick-look-btn" type="button" aria-label="Vista rápida de ${escapeHtml(product.name)}" title="Vista rápida">
+          <span class="quick-look-icon" aria-hidden="true">◉</span>
         </button>
       </article>`;
   }
@@ -169,6 +217,7 @@
     els.menuGroups.innerHTML = groups.map((group) => groupMarkup(group.category, group.products)).join('');
     els.menuGroups.setAttribute('aria-busy', 'false');
     els.menuGroups.hidden = products.length === 0;
+    if (els.mobileCategorySelect) els.mobileCategorySelect.value = state.category;
     els.emptyState.hidden = products.length > 0;
     const filtersActive = state.category !== 'all' || Boolean(state.search.trim());
     els.clearFilters.hidden = !filtersActive;
@@ -193,6 +242,7 @@
 
   function clearFilters() {
     state.category = 'all';
+    storage.set('cochiLastCategory', 'all');
     state.search = '';
     els.search.value = '';
     renderMenu();
@@ -218,7 +268,7 @@
     els.productDialog.dataset.currentProductId = productId;
 
     // Restore favorite state from localStorage
-    const favorites = JSON.parse(localStorage.getItem('cochiFavorites') || '[]');
+    const favorites = readStoredArray('cochiFavorites');
     els.dialogFavorite.classList.toggle('is-favorited', favorites.includes(productId));
 
     if (typeof els.productDialog.showModal === 'function') els.productDialog.showModal();
@@ -241,6 +291,8 @@
 
     // Show quick look overlay
     els.quickLookOverlay.classList.add('active');
+    els.quickLookOverlay.setAttribute('aria-hidden', 'false');
+    els.quickLookClose.focus();
   }
 
   function showConfetti() {
@@ -250,10 +302,10 @@
     // Create confetti pieces
     const confettiCount = 50;
     const colors = [
-      [235, 20, 12],   -- Cochi red
-      [230, 224, 191], -- Cream
-      [255, 255, 255], -- White
-      [255, 100, 100]  -- Light red
+      [235, 20, 12],      // Rojo Cochi
+      [230, 224, 191],   // Crema de marca
+      [255, 255, 255],   // Blanco
+      [255, 100, 100]    // Rojo claro
     ];
 
     // Clear existing confetti
@@ -266,7 +318,8 @@
 
       // Random position
       confetti.style.left = Math.random() * 100 + 'vw';
-      confetti.style.background = `hsl(${Math.random() * 360}, 80%, 50%)`;
+      const [red, green, blue] = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.background = `rgb(${red}, ${green}, ${blue})`;
 
       // Random size
       const size = Math.random() * 8 + 4;
@@ -326,6 +379,7 @@
       const button = event.target.closest('[data-category]');
       if (!button) return;
       state.category = button.dataset.category;
+      storage.set('cochiLastCategory', state.category);
       renderMenu();
     });
 
@@ -345,6 +399,7 @@
       const link = event.target.closest('[data-jump-category]');
       if (!link) return;
       state.category = link.dataset.jumpCategory;
+      storage.set('cochiLastCategory', state.category);
       state.search = '';
       els.search.value = '';
       renderMenu();
@@ -383,6 +438,10 @@
     });
 
     document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && els.quickLookOverlay.classList.contains('active')) {
+        els.quickLookOverlay.classList.remove('active');
+        els.quickLookOverlay.setAttribute('aria-hidden', 'true');
+      }
       if (event.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) && !els.productDialog.open && !els.shareDialog.open) {
         event.preventDefault();
         els.search.focus();
@@ -391,8 +450,16 @@
 
     // Claude Enhancements Event Listeners
     // Sort dropdown
-    els.sortDropdown.addEventListener('click', () => {
-      els.sortOptions.classList.toggle('open');
+    const toggleSortOptions = () => {
+      const isOpen = els.sortOptions.classList.toggle('open');
+      els.sortDropdown.setAttribute('aria-expanded', String(isOpen));
+    };
+    els.sortDropdown.addEventListener('click', toggleSortOptions);
+    els.sortDropdown.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleSortOptions();
+      }
     });
 
     els.sortOptions.addEventListener('click', (event) => {
@@ -411,6 +478,7 @@
       state.sort = option.dataset.sort;
       els.sortSelected.textContent = option.textContent.trim();
       els.sortOptions.classList.remove('open');
+      els.sortDropdown.setAttribute('aria-expanded', 'false');
 
       // Re-render menu with new sort
       renderMenu();
@@ -420,6 +488,7 @@
     document.addEventListener('click', (event) => {
       if (!els.sortDropdown.contains(event.target) && !els.sortOptions.contains(event.target)) {
         els.sortOptions.classList.remove('open');
+        els.sortDropdown.setAttribute('aria-expanded', 'false');
       }
     });
 
@@ -427,7 +496,7 @@
     els.mobileCategorySelect.addEventListener('change', () => {
       state.category = els.mobileCategorySelect.value;
       // Save to localStorage
-      localStorage.setItem('cochiLastCategory', state.category);
+      storage.set('cochiLastCategory', state.category);
       renderMenu();
     });
 
@@ -438,18 +507,18 @@
 
       if (productId) {
         // Save favorite state to localStorage
-        const favorites = JSON.parse(localStorage.getItem('cochiFavorites') || '[]');
+        const favorites = readStoredArray('cochiFavorites');
         if (isFavorited) {
           if (!favorites.includes(productId)) {
             favorites.push(productId);
-            localStorage.setItem('cochiFavorites', JSON.stringify(favorites));
+            storage.set('cochiFavorites', JSON.stringify(favorites));
           }
           showToast('Agregado a favoritos');
         } else {
           const index = favorites.indexOf(productId);
           if (index > -1) {
             favorites.splice(index, 1);
-            localStorage.setItem('cochiFavorites', JSON.stringify(favorites));
+            storage.set('cochiFavorites', JSON.stringify(favorites));
           }
           showToast('Eliminado de favoritos');
         }
@@ -457,14 +526,13 @@
     });
 
     // Quick look controls
-    els.quickLookClose.addEventListener('click', () => {
+    const closeQuickLook = () => {
       els.quickLookOverlay.classList.remove('active');
-    });
-
+      els.quickLookOverlay.setAttribute('aria-hidden', 'true');
+    };
+    els.quickLookClose.addEventListener('click', closeQuickLook);
     els.quickLookOverlay.addEventListener('click', (event) => {
-      if (event.target === els.quickLookOverlay) {
-        els.quickLookOverlay.classList.remove('active');
-      }
+      if (event.target === els.quickLookOverlay) closeQuickLook();
     });
 
     // Quick look buttons in product cards
@@ -569,4 +637,5 @@
   setupReveals();
   setupMotionItems();
   setupIsotopoFollower();
+  document.documentElement.classList.add('has-motion');
 })();

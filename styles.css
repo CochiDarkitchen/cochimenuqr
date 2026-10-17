@@ -140,6 +140,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .category-chip { flex: 0 0 auto; padding: 11px 15px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); background: transparent; font-size: 10px; font-weight: 800; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease; }
 .category-chip:hover { border-color: var(--red); transform: translateY(-2px); }
 .category-chip[aria-pressed="true"] { border-color: var(--red); color: var(--paper); background: var(--red); box-shadow: 0 5px 13px rgba(235,20,12,.12); }
+.category-chip-count { display: inline-grid; place-items: center; min-width: 18px; height: 18px; margin-left: 4px; padding: 0 4px; border-radius: 999px; color: var(--muted); background: rgba(24,23,22,.06); font-size: 8px; line-height: 1; }
+.category-chip[aria-pressed="true"] .category-chip-count { color: var(--red); background: var(--paper); }
 .scroll-hint { align-self: flex-start; padding-top: 11px; color: var(--muted); font-size: 8px; font-weight: 900; letter-spacing: .12em; white-space: nowrap; }
 .results-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 11px 0 25px; }
 .results-row p { margin: 0; color: var(--muted); font-size: 10px; font-weight: 700; }
@@ -152,7 +154,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .menu-group-heading h3 { margin: 0; font-size: clamp(23px, 3vw, 32px); line-height: 1.05; letter-spacing: -.055em; font-weight: 900; text-transform: uppercase; }
 .menu-group-heading p { max-width: 390px; margin: 0 0 2px; color: var(--muted); font-size: 10px; line-height: 1.6; text-align: right; }
 .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.product-card { min-width: 0; opacity: 0; transform: translateY(13px); animation: card-enter .55s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: var(--delay, 0ms); }
+.product-card { position: relative; min-width: 0; opacity: 0; transform: translateY(13px); animation: card-enter .55s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: var(--delay, 0ms); }
 @keyframes card-enter { to { opacity: 1; transform: translateY(0); } }
 .product-open { display: flex; flex-direction: column; width: 100%; min-width: 0; height: 100%; padding: 0; overflow: hidden; border: 1px solid rgba(24,23,22,.1); border-radius: 17px; background: #fffdf6; color: var(--ink); text-align: left; cursor: pointer; transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease; }
 .product-open:hover { transform: translateY(-5px); border-color: rgba(235,20,12,.4); box-shadow: 0 16px 32px rgba(32,20,11,.09); }
@@ -210,6 +212,28 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .footer-bottom { display: flex; justify-content: space-between; gap: 18px; padding-top: 13px; padding-bottom: 15px; border-top: 1px solid rgba(230,224,191,.3); color: rgba(255,248,231,.75); font-size: 8px; font-weight: 800; letter-spacing: .12em; }
 .footer-bottom strong { color: var(--cream); }
 
+.quick-look-btn {
+  position: absolute;
+  z-index: 6;
+  top: 11px;
+  right: 11px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(24,23,22,.13);
+  border-radius: 50%;
+  color: var(--ink);
+  background: rgba(251,248,237,.95);
+  box-shadow: 0 3px 12px rgba(24,23,22,.12);
+  cursor: pointer;
+  transition: transform .2s ease, color .2s ease, background .2s ease;
+}
+.quick-look-btn:hover { color: var(--paper); background: var(--red); transform: scale(1.08) rotate(-5deg); }
+.quick-look-btn:active { transform: scale(.94); }
+.quick-look-icon { font-size: 17px; line-height: 1; }
+
 .product-dialog, .share-dialog { position: fixed; width: min(840px, calc(100% - 32px)); max-width: none; max-height: min(88vh, 760px); padding: 0; overflow: visible; border: 0; border-radius: 22px; color: var(--ink); background: var(--paper); box-shadow: 0 25px 110px rgba(0,0,0,.35); }
 .product-dialog[open], .share-dialog[open] { animation: dialog-enter .28s cubic-bezier(.2,.7,.2,1) both; }
 @keyframes dialog-enter { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -245,9 +269,10 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .toast.is-visible { opacity: 1; transform: translateY(0); }
 [hidden] { display: none !important; }
 
-/* Scroll reveals: contenido visible desde el primer momento si no hay JS o no existe IO. */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
+/* Fallback seguro: sin JavaScript o si falla su inicialización, todo sigue visible. */
+.reveal { opacity: 1; transform: none; }
+html.has-motion .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
+html.has-motion .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 @media (min-width: 1440px) { .hero { border-radius: 0 0 2px 2px; } }
 @media (max-width: 950px) {
@@ -320,8 +345,14 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .menu-section { padding-top: 57px; padding-bottom: 60px; }
   .menu-heading { display: block; margin-bottom: 24px; }
   .menu-heading-note { margin-top: 13px; max-width: 345px; font-size: 11px; }
-  .menu-controls { gap: 12px; padding: 12px 0; }
-  .search-box { min-height: 42px; gap: 8px; padding-inline: 10px; }
+  .menu-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 12px 0; align-items: center; }
+  .search-box { grid-column: 1 / -1; width: 100%; min-width: 0; min-height: 42px; gap: 8px; padding-inline: 10px; }
+  .sort-control { grid-column: 1; width: 100%; min-width: 0; }
+  .sort-dropdown { width: 100%; min-height: 42px; justify-content: space-between; gap: 8px; padding-inline: 10px; font-size: 10px; }
+  .sort-dropdown > span:first-child { color: var(--muted); }
+  .sort-selected { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sort-options { min-width: 190px; }
+  .menu-controls-label { grid-column: 2; grid-row: 2; justify-self: end; }
   .search-box input { font-size: 11px; }
   .search-box kbd { display: none; }
   .menu-controls-label { font-size: 7px; letter-spacing: .08em; }
@@ -337,6 +368,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .menu-group-heading p { margin-top: 7px; font-size: 10px; text-align: left; }
   .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
   .product-open { border-radius: 13px; }
+  .quick-look-btn { top: 8px; right: 8px; width: 31px; height: 31px; }
   .product-image-wrap { aspect-ratio: 1 / .9; }
   .image-reference-tag { top: 7px; left: 7px; padding: 4px 5px; font-size: 6px; letter-spacing: 0; }
   .image-reference-tag::before { font-size: 8px; }
@@ -373,6 +405,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .dialog-price-row { padding-top: 13px; }
   .dialog-price-row strong { font-size: 26px; }
   .share-dialog { padding: 27px 22px; }
+  .favorite-button { right: 59px; }
   .share-dialog-actions { flex-direction: column; }
   .toast { right: 12px; bottom: 12px; max-width: calc(100% - 24px); }
 }
@@ -591,9 +624,10 @@ html.has-motion .category-bento > .motion-item:nth-child(4) { --motion-delay: 22
    CLAUDE ENHANCEMENTS: Dynamic UX/UI Improvements
    ================================================================ */
 
-/* Featured product pulse */
-.featured-pulse {
-  animation: featuredPulse 3s ease-in-out infinite;
+/* La tarjeta conserva su entrada y después recibe un pulso sutil. */
+.product-card.featured-pulse {
+  animation: card-enter .55s cubic-bezier(.2,.7,.2,1) forwards,
+             featuredPulse 3s ease-in-out .65s infinite;
 }
 
 @keyframes featuredPulse {
@@ -615,7 +649,7 @@ html.has-motion .category-bento > .motion-item:nth-child(4) { --motion-delay: 22
 .favorite-button {
   position: absolute;
   top: 12px;
-  right: 12px;
+  right: 60px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -741,6 +775,7 @@ html.has-motion .category-bento > .motion-item:nth-child(4) { --motion-delay: 22
 }
 
 /* Sort dropdown */
+.sort-control { position: relative; flex: 0 0 auto; }
 .sort-dropdown {
   position: relative;
   display: inline-flex;

@@ -4,7 +4,7 @@ Sitio público estático para consultar el menú de Cochi desde un teléfono, ta
 
 ## Abrir la web
 
-1. Descarga y extrae `ENMA_DESIGN_Menu_QR_Cochi.zip`.
+1. Descarga y extrae `ENMA_DESIGN_Menu_QR_Cochi_CORREGIDO.zip`.
 2. Abre la carpeta `ENMA_DESIGN_Menu_QR_Cochi`.
 3. Haz doble clic en `index.html`.
 4. Para ver el generador QR, abre `qr.html`.
@@ -59,11 +59,13 @@ Netlify describe la publicación por arrastrar y soltar en su documentación ofi
 
 ## Última actualización visual
 
-Esta revisión hace un poco más visible el isotipo sin repetirlo en todas las secciones: aparece en pequeño junto al rótulo de la portada y como sello junto al título de la carta. Se mantienen también los usos previos en la pegatina de portada, el banner de cierre y los detalles de producto. Las animaciones nuevas son sutiles y no requieren librerías externas.
+La versión corregida también repara el bloqueo que dejaba vacía la portada cuando `app.js` fallaba. Se restauró el renderizado de categorías, se corrigieron los controles de ordenamiento y se hizo que el contenido siga visible si el JavaScript no logra inicializarse. Los detalles están en `INFORME-PRUEBAS.md`.
+
+Esta revisión visual hace un poco más visible el isotipo sin repetirlo en todas las secciones: aparece en pequeño junto al rótulo de la portada y como sello junto al título de la carta. Se mantienen también los usos previos en la pegatina de portada, el banner de cierre y los detalles de producto. Las animaciones nuevas son sutiles y no requieren librerías externas.
 
 ## Pruebas
 
-Si tienes Node.js instalado, abre una terminal en esta carpeta y ejecuta:
+La revisión corregida incluye 18 pruebas automatizadas. Si tienes Node.js instalado, abre una terminal en esta carpeta y ejecuta:
 
 ```bash
 node --test tests/menu.test.cjs
