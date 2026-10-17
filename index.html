@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eb140c">
+  <meta name="description" content="Explora el menú digital de Cochi: shawarmas, costillas a la BBQ, bandejas, arroz chino y más.">
+  <title>Cochi — Menú digital</title>
+  <link rel="icon" href="assets/branding/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data/menu.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#la-carta">Saltar al menú</a>
+
+  <div class="top-tape" aria-label="Sabores de Cochi">
+    <div class="top-tape-track" aria-hidden="true">
+      <span>SHAWARMAS</span><b>✳</b><span>COSTILLAS BBQ</span><b>✳</b><span>ARROZ CHINO</span><b>✳</b><span>TENDERS Y ALITAS</span><b>✳</b><span>NUEVO SABOR FAVORITO</span><b>✳</b>
+      <span>SHAWARMAS</span><b>✳</b><span>COSTILLAS BBQ</span><b>✳</b><span>ARROZ CHINO</span><b>✳</b><span>TENDERS Y ALITAS</span><b>✳</b><span>NUEVO SABOR FAVORITO</span><b>✳</b>
+    </div>
+  </div>
+
+  <header class="site-header" id="inicio">
+    <a class="brand-lockup" href="#inicio" aria-label="Cochi, inicio del menú">
+      <img class="brand-logo" src="assets/branding/logo-cochi-rojo.png" alt="Cochi" width="190" height="72">
+      <span class="brand-kicker">MENÚ DIGITAL</span>
+    </a>
+    <nav class="header-nav" aria-label="Navegación principal">
+      <a href="#la-carta">La carta <span aria-hidden="true">↘</span></a>
+      <a href="#categorias">Categorías <span aria-hidden="true">↘</span></a>
+    </nav>
+    <button class="share-button" id="share-button" type="button" aria-label="Compartir menú">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"/></svg>
+      <span>Compartir</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero section-wrap" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="eyebrow-dot"></span><img class="hero-eyebrow-isotipo" src="assets/branding/isotipo-cochi-crema.png" alt="" aria-hidden="true">COCHI · MENÚ OFICIAL</p>
+        <h1 id="hero-title">¿Qué se te<br><span>antoja hoy?</span></h1>
+        <p class="hero-description" id="hero-description">Shawarmas, costillas a la BBQ, bandejas, arroz chino y mucho más. Mira la carta y encuentra tu próximo favorito.</p>
+        <div class="hero-actions">
+          <a class="button button-cream" href="#la-carta">Ver la carta <span aria-hidden="true">↘</span></a>
+          <span class="hero-note"><span class="note-spark" aria-hidden="true">✳</span> EL ANTOJO NO AVISA</span>
+        </div>
+        <div class="hero-bottom-copy"><span>01 / COCHI</span><span>ENCUENTRA TU NUEVO SABOR FAVORITO</span></div>
+      </div>
+      <div class="hero-visual reveal" aria-label="Shawarma destacado de Cochi">
+        <div class="hero-checker" aria-hidden="true"></div>
+        <div class="hero-photo-frame">
+          <img src="assets/images/products/shawarma-cesar.webp" alt="Shawarma de Cochi, fotografía tomada de una publicación de la marca" fetchpriority="high">
+          <span class="hero-image-index">ANTOJO <b>001</b></span>
+        </div>
+        <div class="hero-sticker" aria-hidden="true"><img src="assets/branding/isotipo-cochi-crema.png" alt=""><span>COCHI<br>ESTÁ ON</span></div>
+        <span class="hero-side-note" aria-hidden="true">SABOR EN CADA BOCADO ↗</span>
+      </div>
+      <div class="hero-edge" aria-hidden="true"><span>COCHI</span><span>COCHI</span><span>COCHI</span><span>COCHI</span></div>
+    </section>
+
+    <section class="category-intro section-wrap" id="categorias" aria-labelledby="categories-title">
+      <div class="category-intro-top reveal">
+        <p class="eyebrow eyebrow-dark"><span class="eyebrow-dot"></span>MUCHO PARA ELEGIR</p>
+        <h2 id="categories-title">Elige tu <span>antojo.</span></h2>
+        <p>De un shawarma a una bandeja para compartir: explora todo lo que tiene Cochi.</p>
+      </div>
+      <div class="category-bento" id="category-bento" aria-label="Explorar categorías">
+        <a class="category-feature motion-item" href="#la-carta" data-jump-category="shawarmas">
+          <img src="assets/images/products/shawarma-pareja.webp" alt="Shawarmas Cochi envueltos en papel ajedrezado" loading="lazy">
+          <span class="category-feature-shade"></span>
+          <span class="category-card-top">01 / CLÁSICOS</span>
+          <strong>Shawarmas</strong><span class="category-card-action">Ver categoría ↗</span>
+        </a>
+        <a class="category-tile tile-red motion-item" href="#la-carta" data-jump-category="costillas">
+          <span class="tile-number">02</span><span class="tile-symbol" aria-hidden="true">✳</span><strong>Costillas<br>a la BBQ</strong><span class="tile-link">Ver categoría ↗</span>
+        </a>
+        <a class="category-tile tile-cream motion-item" href="#la-carta" data-jump-category="bandejas">
+          <span class="tile-number">03</span><span class="tile-symbol" aria-hidden="true">✳</span><strong>Bandejas<br>con ganas</strong><span class="tile-link">Ver categoría ↗</span>
+        </a>
+        <a class="category-photo-tile motion-item" href="#la-carta" data-jump-category="pollo-asado">
+          <img src="assets/images/products/pollo-asado.webp" alt="Pollo asado promocionado por Cochi" loading="lazy">
+          <span class="photo-tile-tag">SOLO DOMINGOS</span><strong>Pollo asado</strong><span class="tile-link">Ver categoría ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="menu-section section-wrap" id="la-carta" aria-labelledby="menu-title">
+      <div class="menu-heading reveal">
+        <div>
+          <p class="eyebrow eyebrow-dark"><span class="eyebrow-dot"></span>LO BUENO ESTÁ AQUÍ</p>
+          <h2 id="menu-title">La carta <span>de Cochi.</span><img class="heading-isotipo" src="assets/branding/isotipo-cochi-rojo.png" alt="" aria-hidden="true"></h2>
+        </div>
+        <p class="menu-heading-note">Busca tu favorito, filtra por categoría y toca cualquier plato para ver sus detalles.</p>
+      </div>
+
+      <div class="menu-controls" aria-label="Buscar y filtrar productos">
+        <label class="search-box" for="search-input">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></svg>
+          <input id="search-input" type="search" placeholder="Busca un plato…" autocomplete="off" spellcheck="false">
+          <kbd>/</kbd>
+        </label>
+        <span class="menu-controls-label"><span class="live-dot"></span> MENÚ COCHI</span>
+      </div>
+      <div class="category-filter-wrap">
+        <div class="category-filter" id="category-filter" role="group" aria-label="Filtrar por categoría"></div>
+        <span class="scroll-hint" aria-hidden="true">DESLIZA ↔</span>
+      </div>
+      <div class="results-row"><p id="results-summary" aria-live="polite">Preparando el menú…</p><button id="clear-filters" class="clear-filters" type="button" hidden>Limpiar búsqueda <span aria-hidden="true">×</span></button></div>
+      <div class="menu-groups" id="menu-groups" aria-live="polite" aria-busy="true">
+        <div class="initial-loading"><span class="loading-shape"></span><p>Preparando algo bueno…</p></div>
+      </div>
+      <div class="empty-state" id="empty-state" hidden>
+        <img src="assets/branding/isotipo-cochi-rojo.png" alt="" aria-hidden="true">
+        <h3>Ese antojo no aparece.</h3>
+        <p>Prueba otro nombre o vuelve a ver todas las categorías.</p>
+        <button class="button button-red" id="empty-reset" type="button">Ver todo el menú</button>
+      </div>
+      <p class="image-note-global"><span aria-hidden="true">✳</span> Algunas ilustraciones son temporales y se identifican como imágenes de referencia. Sustitúyelas por fotografías reales antes de publicar la versión comercial final.</p>
+    </section>
+
+    <section class="closing-banner reveal" aria-label="Cierre de la carta">
+      <div class="closing-banner-inner section-wrap">
+        <div class="closing-banner-copy"><p>UN SHAWARMA TAMBIÉN PUEDE DECIR</p><h2>Te quiero.<br><span>¿Ya lo sabías?</span></h2><a class="button button-cream" href="#la-carta">Encuentra el tuyo <span aria-hidden="true">↗</span></a></div>
+        <div class="closing-banner-art"><img src="assets/images/products/shawarma-pareja.webp" alt="Dos shawarmas de una publicación de Cochi" loading="lazy"><span class="banner-sticker">EL SABOR<br>TE LLAMA <b>✳</b></span><img class="closing-isotipo" src="assets/branding/isotipo-cochi-crema.png" alt="" aria-hidden="true"></div>
+      </div>
+      <div class="closing-ticker" aria-hidden="true"><div>SHAWARMA ✳ NUEVO SABOR FAVORITO ✳ COCHI ✳ COMIDA QUE SE ANTOJA ✳ SHAWARMA ✳ NUEVO SABOR FAVORITO ✳ COCHI ✳ COMIDA QUE SE ANTOJA ✳</div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-main section-wrap">
+      <a href="#inicio" class="footer-logo-link" aria-label="Volver al inicio"><img src="assets/branding/logo-cochi-crema.png" alt="Cochi" loading="lazy"></a>
+      <p>Tu carta digital, para que encuentres tu próximo favorito.</p>
+      <a href="#inicio" class="back-top">VOLVER ARRIBA ↑</a>
+    </div>
+    <div class="footer-bottom section-wrap"><span>MENÚ DIGITAL COCHI</span><span>EXPERIENCIA DIGITAL POR <strong>ENMA DESIGN</strong></span><span>HECHO PARA MÓVIL Y QR</span></div>
+  </footer>
+
+  <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-product-name">
+    <button class="dialog-close" id="dialog-close" type="button" aria-label="Cerrar detalles del plato">×</button>
+    <div class="dialog-layout">
+      <div class="dialog-image-wrap"><img id="dialog-product-image" src="assets/images/products/shawarma-cesar.webp" alt=""></div>
+      <div class="dialog-details">
+        <p class="dialog-kicker"><span class="eyebrow-dot"></span><span id="dialog-category">DETALLES DEL PLATO</span></p>
+        <h2 id="dialog-product-name">Nombre del plato</h2>
+        <p class="dialog-description" id="dialog-product-description"></p>
+        <div class="dialog-price-row"><strong id="dialog-product-price"></strong><span id="dialog-product-availability" class="availability-pill"></span></div>
+        <p id="dialog-image-note" class="dialog-image-note" hidden></p>
+        <div class="dialog-bottom-rule"><img src="assets/branding/isotipo-cochi-rojo.png" alt="" aria-hidden="true"><span>COCHI · MENÚ DIGITAL</span></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="share-dialog" id="share-dialog" aria-labelledby="share-dialog-title">
+    <button class="dialog-close" id="share-close" type="button" aria-label="Cerrar compartir">×</button>
+    <div class="share-dialog-copy"><span class="share-mark">↗</span><p class="eyebrow eyebrow-dark">PÁSALO</p><h2 id="share-dialog-title">Comparte<br><span>el antojo.</span></h2><p>Copia el enlace de esta carta y compártelo con quien quieras.</p><input id="share-url" type="url" readonly aria-label="Enlace público del menú"><div class="share-dialog-actions"><button class="button button-red" id="copy-link-button" type="button">Copiar enlace</button><button class="button button-outline" id="native-share-button" type="button">Compartir ↗</button></div><p id="share-status" class="share-status" aria-live="polite"></p></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

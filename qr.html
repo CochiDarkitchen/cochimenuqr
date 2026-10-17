@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eb140c">
+  <meta name="description" content="Genera localmente un código QR para el menú público de Cochi.">
+  <title>Generador QR · Cochi</title>
+  <link rel="icon" href="assets/branding/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="vendor/qrcode-lite.js"></script>
+  <script defer src="qr-tool.js"></script>
+</head>
+<body class="qr-page">
+  <a class="skip-link" href="#qr-main">Saltar al generador QR</a>
+  <div class="top-tape" aria-hidden="true"><div class="top-tape-track"><span>COCHI · MENÚ DIGITAL</span><b>✳</b><span>ESCANEA Y DESCUBRE</span><b>✳</b><span>ENMA DESIGN</span><b>✳</b><span>COCHI · MENÚ DIGITAL</span><b>✳</b><span>ESCANEA Y DESCUBRE</span><b>✳</b><span>ENMA DESIGN</span><b>✳</b></div></div>
+  <header class="site-header qr-site-header">
+    <a class="brand-lockup" href="./" aria-label="Volver al menú de Cochi"><img class="brand-logo" src="assets/branding/logo-cochi-rojo.png" alt="Cochi"><span class="brand-kicker">MENÚ DIGITAL</span></a>
+    <a class="qr-back-link" href="./">← Volver al menú</a>
+  </header>
+  <main id="qr-main" class="qr-main section-wrap">
+    <section class="qr-intro">
+      <p class="eyebrow eyebrow-dark"><span class="eyebrow-dot"></span>HERRAMIENTA DE COCHI</p>
+      <h1>Un escaneo<br><span>y estás aquí.</span></h1>
+      <p>Genera un código QR que abra la carta publicada. El código se crea en tu navegador: este archivo no envía ni guarda la dirección.</p>
+    </section>
+    <section class="qr-workspace" aria-label="Generador de código QR">
+      <div class="qr-controls-panel">
+        <p class="qr-step-kicker">01 / URL DEL MENÚ</p>
+        <label for="qr-public-url">Pega aquí la dirección pública de Cochi</label>
+        <input id="qr-public-url" type="url" placeholder="https://tu-menu.vercel.app/" autocomplete="url" spellcheck="false" required>
+        <p class="qr-helper">Usa la URL HTTPS que se abre directamente en el menú. No uses una dirección que empiece con <code>file://</code> o <code>localhost</code>.</p>
+        <button class="button button-red qr-generate" id="qr-generate" type="button">Generar código QR <span aria-hidden="true">↗</span></button>
+        <p id="qr-tool-status" class="qr-status" aria-live="polite">Cuando publiques el menú, pega su URL aquí y genera el QR.</p>
+        <a id="qr-preview-link" class="qr-preview-link" href="./" target="_blank" rel="noopener noreferrer" hidden>Probar dirección en otra pestaña ↗</a>
+      </div>
+      <div class="qr-preview-panel">
+        <div class="qr-frame" id="qr-frame"><div class="qr-empty-art" id="qr-empty-art"><img src="assets/branding/isotipo-cochi-rojo.png" alt=""><strong>COCHI</strong><span>TU QR APARECERÁ AQUÍ</span></div><canvas id="qr-canvas" width="520" height="520" aria-label="Código QR generado" hidden></canvas></div>
+        <p class="qr-preview-label" id="qr-preview-label">Tu carta, a un escaneo de distancia.</p>
+        <button class="button button-outline qr-download" id="qr-download" type="button" disabled>Descargar PNG ↓</button>
+      </div>
+    </section>
+    <section class="qr-checklist">
+      <div class="qr-checklist-symbol">✓</div><div><h2>Antes de imprimirlo</h2><p>Publica la web, genera el código con la dirección final y escanéalo con la cámara de un teléfono. Repite la prueba con datos móviles y Wi-Fi. No imprimas un QR que apunte a una página local.</p></div>
+    </section>
+  </main>
+  <footer class="site-footer qr-footer"><div class="footer-main section-wrap"><a href="./" class="footer-logo-link"><img src="assets/branding/logo-cochi-crema.png" alt="Cochi"></a><p>Generador QR local · No guarda datos</p><a class="back-top" href="./">VOLVER AL MENÚ ↗</a></div><div class="footer-bottom section-wrap"><span>COCHI · MENÚ DIGITAL</span><span>EXPERIENCIA DIGITAL POR <strong>ENMA DESIGN</strong></span><span>QR GENERADO EN EL NAVEGADOR</span></div></footer>
+</body>
+</html>

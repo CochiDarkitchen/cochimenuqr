@@ -1,0 +1,14 @@
+THIRD-PARTY NOTICES
+
+The browser QR generator in qrcode-lite.js is a bundled and adapted derivative
+of QRCode.js, originally copyright (c) 2009 Kazuhiko Arase, distributed under
+the MIT License. See LICENSE-QRCode.js.txt.
+
+The original packaging/project context also includes qrcode-terminal, whose
+license and attribution are included in LICENSE-qrcode-terminal.txt.
+
+Changes in this bundled copy include browser packaging, a small client-side
+API wrapper, and use of error-correction level H in generated QR codes.
+
+"QR Code" is a registered trademark of DENSO WAVE INCORPORATED. This project
+uses QR encoding functionality and is not affiliated with or endorsed by DENSO.
